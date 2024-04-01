@@ -51,12 +51,14 @@ http: app.get("/todos/owner/:ownerId", (req, res) => {
   }
 });
 
-//mentiqin tuta bilmedim:
+//Your Endpoint URL:  http://localhost:1463/2/owner
 app.get("/:id/owner", (req, res) => {
   const { id } = req.params;
   const todoIdOwner = todos.find((item) => item.id === id);
   if (todoIdOwner) {
-    const ownerIdTodo = owners.filter((item) => item.todosId === todos.id);
+    const ownerIdTodo = owners.filter(
+      (item) => item.todosId === todoIdOwner.id
+    );
     if (ownerIdTodo.length > 0) {
       res.status(200).json(ownerIdTodo);
     } else {

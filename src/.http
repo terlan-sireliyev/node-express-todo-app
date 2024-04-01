@@ -1,0 +1,2 @@
+@baseUrl =  http://localhost:1463
+GET  {{baseUrl}}/1/owner
