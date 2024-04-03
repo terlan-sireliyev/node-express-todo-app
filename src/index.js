@@ -25,6 +25,7 @@ app.get("/todos", (req, res) => {
     res.status(404).json("error");
   }
 });
+
 app.get("/owners", (req, res) => {
   const limit = req.query.limit ?? 2;
   const ownerID = req.query.statusTodo;
@@ -45,6 +46,7 @@ app.get("/owners", (req, res) => {
     res.status(404).json("error");
   }
 });
+
 app.get("/todos/:id", (req, res) => {
   const { id } = req.params;
   let todo;
@@ -53,6 +55,7 @@ app.get("/todos/:id", (req, res) => {
     res.send(todo);
   }
 });
+
 //Your Endpoint URL: http://localhost:1463/todos/owner/a2
 http: app.get("/todos/owner/:ownerId", (req, res) => {
   const ownerId = req.params.ownerId;
@@ -88,6 +91,7 @@ app.get("/:id/owner", (req, res) => {
     res.status(404).json({ message: `there is no owner with id= ${ownerId}` });
   }
 });
+
 app.post("/todos", (req, res) => {
   const { statusTodo, ...data } = req.body;
   const flagTodo = statusTodo ? req.body : { ...data, statusTodo: "todo" };
@@ -111,6 +115,7 @@ app.put("/todos/:id", (req, res) => {
     res.status(404).send({ message: "there is no todo with that id", id });
   }
 });
+
 //Your Endpoint URL : http://localhost:1463/changeStatus/1/status
 app.put("/changeStatus/:id/status", (req, res) => {
   const { id } = req.params;
@@ -184,6 +189,7 @@ app.delete("/todos/:id", (req, res) => {
   todos = todos.filter((del) => del.id !== id);
   res.status(200).json({ message: `todo is deleted:`, id });
 });
+
 //Your Endpoint URL : http://localhost:1463/todos/status/todo
 app.delete("/todos/status/:statusTodo", (req, res) => {
   const { statusTodo } = req.params;
@@ -199,16 +205,18 @@ app.delete("/todos/status/:statusTodo", (req, res) => {
       .json({ message: `Todos of status ${statusTodo} are not found` });
   }
 });
+
 //Your Endpoint URL : http://localhost:1463/todos/delete/a1
 app.delete("/todos/delete/:ownerId", (req, res) => {
   const { ownerId } = req.params;
   const ownerFoundByTodoId = owners.find((owner) => owner.id === ownerId);
 
   if (ownerFoundByTodoId) {
+    console.log("ow", req.params);
     const deletedTodos = todos.filter((todo) => todo.ownerId === ownerId);
     todos = todos.filter((todo) => todo.ownerId !== ownerId);
 
-    ownerFoundByTodoId.todos = "no todos";
+    ownerFoundByTodoId.todosId = "no todos";
 
     deletedTodos.length > 0
       ? res.status(200).json({
